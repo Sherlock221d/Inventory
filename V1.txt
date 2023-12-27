@@ -1,0 +1,133 @@
+Required Field Validation:
+
+Condition: Ensure that a field is not left empty.
+Example:
+<asp:TextBox ID="txtUserName" runat="server"></asp:TextBox>
+<asp:RequiredFieldValidator ID="rfvUserName" runat="server" ControlToValidate="txtUserName"
+    ErrorMessage="Username is required." Display="Dynamic"></asp:RequiredFieldValidator>
+-----------------------------------------------------------
+Length Validation:
+
+Condition: Check if the input length is within a specific range.
+Example:
+<asp:TextBox ID="txtPassword" runat="server"></asp:TextBox>
+<asp:RegularExpressionValidator ID="revPassword" runat="server" ControlToValidate="txtPassword"
+    ErrorMessage="Password must be between 6 and 12 characters." Display="Dynamic"
+    ValidationExpression="^.{6,12}$"></asp:RegularExpressionValidator>
+-------------------------------------------------------------
+Numeric Validation:
+
+Condition: Ensure that the input is a valid numeric value.
+Example:
+
+<asp:TextBox ID="txtAge" runat="server"></asp:TextBox>
+<asp:RangeValidator ID="rvAge" runat="server" ControlToValidate="txtAge"
+    ErrorMessage="Age must be a number between 18 and 99." Display="Dynamic"
+    MinimumValue="18" MaximumValue="99" Type="Integer"></asp:RangeValidator>
+
+------------------------
+
+Email Validation:
+
+Condition: Check if the input follows the email format.
+Example:
+
+
+<asp:TextBox ID="txtEmail" runat="server"></asp:TextBox>
+<asp:RegularExpressionValidator ID="revEmail" runat="server" ControlToValidate="txtEmail"
+    ErrorMessage="Enter a valid email address." Display="Dynamic"
+    ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
+
+-----------------------------------------
+
+Date Validation:
+
+Condition: Ensure that the input is a valid date.
+Example:
+
+<asp:TextBox ID="txtBirthDate" runat="server"></asp:TextBox>
+<asp:CompareValidator ID="cvBirthDate" runat="server" ControlToValidate="txtBirthDate"
+    ErrorMessage="Enter a valid birth date." Display="Dynamic"
+    Operator="DataTypeCheck" Type="Date"></asp:CompareValidator>
+
+------------------------------------------------
+Checkbox Required Validation:
+
+Condition: Ensure that a checkbox is checked.
+
+Example:
+
+<asp:CheckBox ID="chkAgree" runat="server" Text="I agree to the terms and conditions." />
+<asp:CustomValidator ID="cvAgree" runat="server" ControlToValidate="chkAgree"
+    ErrorMessage="You must agree to the terms and conditions." Display="Dynamic"
+    OnServerValidate="cvAgree_ServerValidate"></asp:CustomValidator>
+
+<asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
+protected void cvAgree_ServerValidate(object source, ServerValidateEventArgs args)
+{
+    args.IsValid = chkAgree.Checked;
+}
+
+protected void btnSubmit_Click(object sender, EventArgs e)
+{
+    if (Page.IsValid)
+    {
+    }
+}
+------------------------------------
+At Least One Checkbox Checked:
+
+Condition: Ensure that at least one checkbox in a group is checked.
+
+Example:
+
+<asp:CheckBoxList ID="cblOptions" runat="server">
+    <asp:ListItem Text="Option 1" Value="1" />
+    <asp:ListItem Text="Option 2" Value="2" />
+    <asp:ListItem Text="Option 3" Value="3" />
+</asp:CheckBoxList>
+
+<asp:CustomValidator ID="cvOptions" runat="server" ControlToValidate="cblOptions"
+    ErrorMessage="Select at least one option." Display="Dynamic"
+    OnServerValidate="cvOptions_ServerValidate"></asp:CustomValidator>
+
+<asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
+
+protected void cvOptions_ServerValidate(object source, ServerValidateEventArgs args)
+{
+    args.IsValid = cblOptions.Items.Cast<ListItem>().Any(li => li.Selected);
+}
+
+----------------------------------------
+password and Confirm Validations
+
+<asp:TextBox ID="txtPassword" runat="server" TextMode="Password"></asp:TextBox>
+<asp:RequiredFieldValidator ID="rfvPassword" runat="server" ControlToValidate="txtPassword"
+    ErrorMessage="Password is required." Display="Dynamic"></asp:RequiredFieldValidator>
+
+<br />
+
+<asp:TextBox ID="txtConfirmPassword" runat="server" TextMode="Password"></asp:TextBox>
+<asp:RequiredFieldValidator ID="rfvConfirmPassword" runat="server" ControlToValidate="txtConfirmPassword"
+    ErrorMessage="Confirm Password is required." Display="Dynamic"></asp:RequiredFieldValidator>
+
+<br />
+
+<asp:CompareValidator ID="cvPasswordMatch" runat="server" ControlToValidate="txtConfirmPassword"
+    ControlToCompare="txtPassword" Operator="Equal" Type="String"
+    ErrorMessage="Passwords do not match." Display="Dynamic"></asp:CompareValidator>
+
+<br />
+
+<asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
+protected void btnSubmit_Click(object sender, EventArgs e)
+{
+    if (Page.IsValid)
+    {
+        // Passwords match, proceed with form submission
+        string password = txtPassword.Text;
+        // ... your logic here ...
+    }
+}
+
+

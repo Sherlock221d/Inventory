@@ -1,0 +1,323 @@
+Model
+Employee.cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace CRUD_MVC.Models
+{
+    public class Employee
+    {
+        public int Empid { set; get; }
+        public string Ename { set; get; }
+        public string Designation { set; get; }
+        public double Salary { set; get; }
+        public int Deptno { set; get; }
+
+    }
+}
+EmployeeOperation.cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+using System.Data;
+
+namespace CRUD_MVC.Models
+{
+    public class EmployeeOperation
+    {
+        SqlConnection con = new SqlConnection(@"server=Shashankbittu;user id=sa;Password=shashank123;database=Curd_operations");
+        SqlCommand cmd;
+        public string Post(Employee Emp)
+        {
+            string strQuery = "insert into EmployeeDetails values (@p1,@p2,@p3,@p4,@p5)";
+            cmd = new SqlCommand(strQuery, con);
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.AddWithValue(@"p1", Emp.Empid);
+            cmd.Parameters.AddWithValue(@"p2", Emp.Ename);
+            cmd.Parameters.AddWithValue(@"p3", Emp.Designation);
+            cmd.Parameters.AddWithValue(@"p4", Emp.Salary);
+            cmd.Parameters.AddWithValue(@"p5", Emp.Deptno);
+            con.Open();
+            int i = cmd.ExecuteNonQuery();
+            con.Close();
+            string Message = i + "Inserted Recorded";
+            return Message;
+        }
+        public string put(Employee Emp)
+        {
+            string strQuery = "Update EmployeeDetails set Ename=@p2,Designation=@p3,Salary=@p4,Deptno=@p5 where Empid=@p1";
+            cmd = new SqlCommand(strQuery, con);
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.AddWithValue(@"p1", Emp.Empid);
+            cmd.Parameters.AddWithValue(@"p2", Emp.Ename);
+            cmd.Parameters.AddWithValue(@"p3", Emp.Designation);
+            cmd.Parameters.AddWithValue(@"p4", Emp.Salary);
+            cmd.Parameters.AddWithValue(@"p5", Emp.Deptno);
+            con.Open();
+            int i = cmd.ExecuteNonQuery();
+            con.Close();
+            string Message = i + " Updated Recorded";
+            return Message;
+        }
+        public string Delete(int id)
+        {
+            string strQuery = "Delete EmployeeDetails where Empid=@p1";
+            cmd = new SqlCommand(strQuery, con);
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.AddWithValue(@"p1", id);
+            con.Open();
+            int i = cmd.ExecuteNonQuery();
+            con.Close();
+            string Message = i + "Delete Recorded";
+            return Message;
+        }
+        public IEnumerable<Employee> Get()
+        {
+            List<Employee> Emplist = new List<Employee>();
+            string StrQuery = "Select * from EmployeeDetails";
+            cmd = new SqlCommand(StrQuery, con);
+            con.Open();
+            SqlDataReader DR = cmd.ExecuteReader();
+            while (DR.Read())
+            {
+                Employee E = new Employee();
+                E.Empid = Convert.ToInt32(DR[0]);
+                E.Ename = Convert.ToString(DR[1]);
+                E.Designation = Convert.ToString(DR[2]);
+                E.Salary = Convert.ToDouble(DR[3]);
+                E.Deptno = Convert.ToInt32(DR[4]);
+                Emplist.Add(E);
+            }
+            con.Close();
+            return Emplist;
+        }
+        public Employee Get(int id)
+        {
+            Employee E = new Employee();
+
+            string StrQuery = "Select * from EmployeeDetails where Empid=" + id;
+            cmd = new SqlCommand(StrQuery, con);
+            con.Open();
+            SqlDataReader DR = cmd.ExecuteReader();
+            if (DR.Read())
+            {
+                E.Empid = Convert.ToInt32(DR[0]);
+                E.Ename = Convert.ToString(DR[1]);
+                E.Designation = Convert.ToString(DR[2]);
+                E.Salary = Convert.ToDouble(DR[3]);
+                E.Deptno = Convert.ToInt32(DR[4]);
+            }
+            con.Close();
+            return E;
+        }
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------
+Controllers
+EmployeeController.cs
+
+using CRUD_MVC.Models;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace CRUD_MVC.Controllers
+{
+    public class EmployeeController : Controller
+    {
+        EmployeeOperation OPPS = new EmployeeOperation();
+        [HttpGet]
+        public IActionResult AddEmployee()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddEmployee(Employee Emp)
+        {
+            ViewBag.Message = OPPS.Post(Emp);
+            return View();
+        }
+        [HttpGet]
+        public IActionResult EditEmployee(int id)
+        {
+            ViewBag.Emp = OPPS.Get(id);
+            return View();
+        }
+        [HttpPost]
+        public IActionResult EditEmployee(Employee Emp)
+        {
+            ViewBag.Message = OPPS.put(Emp);
+            return View();
+        }
+        [HttpGet]
+        public IActionResult Employee()
+        {
+            ViewBag.Empdata = OPPS.Get();
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Employee(int id)
+        {
+            ViewBag.Message = OPPS.Delete(id);
+            ViewBag.Empdata = OPPS.Get();
+            return View();
+        }
+    }
+}
+------------------------------------------------------------------------------
+Views
+Employee(Folder)
+AddEmployee.cshtml
+
+@model Employee
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div>
+    <h4>Create new Employee</h4>
+    <p>@ViewBag.Message</p>
+    <form method="post">
+        <table>
+            <tr>
+                <th>Enter Empid</th>
+                <td>@Html.TextBoxFor(Model => Model.Empid)</td>
+            </tr>
+            <tr>
+                <th>Enter Ename</th>
+                <td>@Html.TextBoxFor(Model => Model.Ename)</td>
+            </tr>
+            <tr>
+                <th>Enter Designaton</th>
+                <td>@Html.TextBoxFor(Model => Model.Designation)</td>
+            </tr>
+            <tr>
+                <th>Enter salary</th>
+                <td>@Html.TextBoxFor(Model => Model.Salary)</td>
+            </tr>
+            <tr>
+                <th>Enter Deptno</th>
+                <td>@Html.TextBoxFor(Model => Model.Deptno)</td>
+            </tr>
+            <tr>
+                <th>
+                    <input type="submit" value="Submit" class="btn-primary" />
+                </th>
+                <td>
+                    <a class=" btn btn-outline-primary" asp-action="Employee" asp-controller="Employee">Cancel</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+--------------------------------------------
+EditEmployee.cshtml
+
+@model Employee
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div>
+    <h4>update Employee</h4>
+    <p>@ViewBag.Message</p>
+    <form method="post">
+        <table>
+            <tr>
+                <th>Enter Empid</th>
+                <td>@Html.TextBoxFor(Model => Model.Empid)</td>
+            </tr>
+            <tr>
+                <th>Enter Ename</th>
+                <td>@Html.TextBoxFor(Model => Model.Ename)</td>
+            </tr>
+            <tr>
+                <th>Enter Designaton</th>
+                <td>@Html.TextBoxFor(Model => Model.Designation)</td>
+            </tr>
+            <tr>
+                <th>Enter salary</th>
+                <td>@Html.TextBoxFor(Model => Model.Salary)</td>
+            </tr>
+            <tr>
+                <th>Enter Deptno</th>
+                <td>@Html.TextBoxFor(Model => Model.Deptno)</td>
+            </tr>
+            <tr>
+                <th>
+                    <input type="submit" value="update" class="btn-primary" />
+                </th>
+                <td>
+                    <a class=" btn btn-outline-primary" asp-action="Employee" asp-controller="Employee">Cancel</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+--------------------------------------------------------------------
+Employee.cshtml
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class=" container">
+    <h4>Employee Details</h4>
+    <a asp-action="AddEmployee" class=" btn btn-primary" asp-controller="Employee">Create</a>
+    <form method="post">
+        <table class=" table">
+            <tr class=" bg-primary">
+                <th>Empid</th>
+                <th>EName</th>
+                <th>Designation</th>
+                <th>Salary</th>
+                <th>Deptno</th>
+                <th>Action</th>
+            </tr>
+            @foreach (Employee E in ViewBag.EmpData)
+            {
+<tr class=" bg-dark text-white">
+    <td>@Html.DisplayFor(x => E.Empid)</td>
+    <td>@Html.DisplayFor(x => E.Ename)</td>
+    <td>@Html.DisplayFor(x => E.Designation)</td>
+    <td>@Html.DisplayFor(x => E.Salary)</td>
+    <td>@Html.DisplayFor(x => E.Deptno)</td>
+    <td>
+        <a class=" btn btn-primary rounded" asp-action="EditEmployee" asp-controller="Employee">Edit</a>
+        <input class="btn btn-danger rounded" type="submit" value="Delete" asp-route-id="@E.Empid" />
+    </td>
+
+</tr>            }
+        </table>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

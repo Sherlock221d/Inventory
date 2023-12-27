@@ -1,0 +1,439 @@
+<%@ Page Title="" Language="C#" MasterPageFile="~/MainMasterPage.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="M.Login" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Dashtreme Admin - Free Dashboard for Bootstrap 4 by Codervent</title>
+        <!-- loader-->
+        <link href="assets/css/pace.min.css" rel="stylesheet" />
+        <script src="assets/js/pace.min.js"></script>
+        <!--favicon-->
+        <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+        <!-- Vector CSS -->
+        <link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
+        <!-- simplebar CSS-->
+        <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+        <!-- Bootstrap core CSS-->
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+        <!-- animate CSS-->
+        <link href="assets/css/animate.css" rel="stylesheet" type="text/css" />
+        <!-- Icons CSS-->
+        <link href="assets/css/icons.css" rel="stylesheet" type="text/css" />
+        <!-- Sidebar CSS-->
+        <link href="assets/css/sidebar-menu.css" rel="stylesheet" />
+        <!-- Custom Style-->
+        <link href="assets/css/app-style.css" rel="stylesheet" />
+
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" />
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+        <link href="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+        <script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js" type="text/javascript"></script>
+
+
+
+
+        <script type="text/javascript">
+            function validateForm() {
+
+                var txtName = document.getElementById('<%= txtName.ClientID %>');
+                var txtPhoneNos = document.getElementById('<%= txtPhoneNos.ClientID %>');
+                var txtPassword = document.getElementById('<%= txtPassword.ClientID %>');
+                var txtcnfPassword = document.getElementById('<%= txtcnfPassword.ClientID %>');
+
+                if (txtName.value === "") {
+                    alert("Please select a StockCode");
+                    txtName.focus();
+                    return false;
+                }
+
+                if (txtPhoneNos.value === "") {
+                    alert("Please Enter the StockName.");
+                    txtPhoneNos.focus();
+                    return false;
+                }
+
+                if (txtPassword.value === "") {
+                    alert("Please Enter the BrandName.");
+                    txtPassword.focus();
+                    return false;
+                }
+
+                if (txtcnfPassword.value === "") {
+                    alert("Please Enter the cnfPassword");
+                    txtcnfPassword.focus();
+                    return false;
+                }
+                return true;
+            }
+        </script>
+    </head>
+    <body class="bg-theme bg-theme1">
+
+        <!-- Start wrapper-->
+        <div id="wrapper">
+
+            <!-- start loader -->
+            <div id="pageloader-overlay" class="visible incoming">
+                <div class="loader-wrapper-outer">
+                    <div class="loader-wrapper-inner">
+                        <div class="loader"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- end loader -->
+            <div id="wrapper">
+                <div class="clearfix"></div>
+
+                <div class="content-wrapper">
+                    <div class="container-fluid">
+
+                        <div class="row mt-3">
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-title">Vertical Form</div>
+                                        <hr>
+
+                                        <div class="form-group">
+                                            <asp:Label ID="lblName" runat="server" Text="Name"></asp:Label>
+                                            <asp:TextBox ID="txtName" runat="server" placeholder="Enter Your Name" CssClass="form-control"></asp:TextBox>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <asp:Label ID="Label1" runat="server" Text="Email"></asp:Label>
+                                            <asp:DropDownList ID="ddlEmail" runat="server" placeholder="Enter Your Email" CssClass="form-control"></asp:DropDownList>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <asp:Label ID="Label4" runat="server" Text="PhoneNos"></asp:Label>
+                                            <asp:TextBox ID="txtPhoneNos" runat="server" placeholder="Enter Your PhoneNos" CssClass="form-control"></asp:TextBox>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <asp:Label ID="Label2" runat="server" Text="Password"></asp:Label>
+                                            <asp:TextBox ID="txtPassword" runat="server" placeholder="Enter Your Name"  CssClass="form-control"></asp:TextBox>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <asp:Label ID="Label3" runat="server" Text="Confirm Password"></asp:Label>
+                                            <asp:TextBox ID="txtcnfPassword" runat="server" placeholder="Enter Your Confirm Password"  CssClass="form-control"></asp:TextBox>
+                                        </div>
+
+                                        <div>
+                                            <asp:LinkButton ID="btnSubmit" runat="server" CssClass="btn btn-light px-5" OnClick="btnSubmit_Click" OnClientClick="return validateForm();"><i class="icon-lock"></i> Register</asp:LinkButton>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row"></div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div>
+                                    <h3 style="padding-bottom: 25px;">User Details</h3>
+                                </div>
+                                <div class="table-responsive">
+                                    <asp:GridView ID="grdpracticegrid" runat="server" CssClass="table table-bordered table-striped" AutoGenerateColumns="false" EnableViewState="true">
+                                        <Columns>
+                                            <asp:TemplateField ItemStyle-Width="30px" HeaderText="Name">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblid1" runat="server" Text='<%#Eval("Name") %>' CssClass="control-label"></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField ItemStyle-Width="30px" HeaderText="Email">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblid" runat="server" Text='<%#Eval("Mobile") %>' CssClass="control-label"></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+                                            <asp:TemplateField HeaderText="Actions" HeaderStyle-Width="5%">
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="lnkupdate" runat="server" AutoPostBack="true" CommandArgument='<%#Eval("Id") %>' CommandName="EditProject"  ToolTip="View" OnClick="lnkupdate_Click1"><i class="fa fa-edit" style="font-size:18px"></i></asp:LinkButton>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+
+
+                                        </Columns>
+                                    </asp:GridView>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Bootstrap core JavaScript-->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+
+        <!-- simplebar js -->
+        <script src="assets/plugins/simplebar/js/simplebar.js"></script>
+        <!-- sidebar-menu js -->
+        <script src="assets/js/sidebar-menu.js"></script>
+        <!-- loader scripts -->
+        <script src="assets/js/jquery.loading-indicator.js"></script>
+        <!-- Custom scripts -->
+        <script src="assets/js/app-script.js"></script>
+        <!-- Chart js -->
+
+        <script src="assets/plugins/Chart.js/Chart.min.js"></script>
+
+        <!-- Index js -->
+        <script src="assets/js/index.js"></script>
+        </form>
+    </body>
+    </html>
+</asp:Content>
+---------------------------------------
+
+
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace M
+{
+    public partial class Login : System.Web.UI.Page
+    {
+        private string strConnectionString = ConfigurationManager.ConnectionStrings["DBconnection"].ConnectionString;
+        private SqlCommand _sqlCommand;
+        public void CreateConnection()
+        {
+            SqlConnection _sqlConnection = new SqlConnection(strConnectionString);
+            _sqlCommand = new SqlCommand();
+            _sqlCommand.Connection = _sqlConnection;
+        }
+        public void OpenConnection()
+        {
+            _sqlCommand.Connection.Open();
+        }
+        public void CloseConnection()
+        {
+            _sqlCommand.Connection.Close();
+        }
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                GetEmailData();
+                GetUserMasterList();
+            }
+        }
+        private static void ShowAlertMessage(string error)
+        {
+            System.Web.UI.Page page = System.Web.HttpContext.Current.Handler as System.Web.UI.Page;
+            if (page != null)
+            {
+                error = error.Replace("'", "\'");
+                System.Web.UI.ScriptManager.RegisterStartupScript(page, page.GetType(), "err_msg", "alert('" + error + "');", true);
+            }
+        }
+        private void LogError(Exception ex)
+        {
+            string logFilePath = Server.MapPath("~/ErrorLog.txt");
+            using (StreamWriter writer = new StreamWriter(logFilePath, true))
+            {
+                writer.WriteLine("----------------------------------------------------------------------------------------------------------------------------");
+                writer.WriteLine("Error Logged at " + DateTime.Now);
+                writer.WriteLine("Error Message: " + ex.Message);
+                writer.WriteLine("Stack Trace: " + ex.StackTrace);
+            }
+        }
+        public void GetEmailData()
+        {
+            try
+            {
+                //int logintype = Convert.ToInt32(Session["Logintype"]);
+                CreateConnection();
+                OpenConnection();
+                _sqlCommand.CommandText = "Sp_GetallEmail";
+                _sqlCommand.CommandType = CommandType.StoredProcedure;
+                SqlDataReader dr = _sqlCommand.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    ddlEmail.DataSource = dr;
+                    ddlEmail.DataTextField = "Emails";
+                    ddlEmail.DataValueField = "Id";
+                    ddlEmail.DataBind();
+                    ddlEmail.Items.Insert(0, new ListItem("-Select-", ""));
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError(ex);
+                //ShowAlertMessage("Something went wrong....");
+            }
+            finally
+            {
+                //   CloseConnection();
+
+            }
+        }
+
+        public void GetUserMasterList()
+        {
+            try
+            {
+                CreateConnection();
+                OpenConnection();
+                _sqlCommand.CommandText = "Sp_GetDetails";
+                _sqlCommand.CommandType = CommandType.StoredProcedure;
+                SqlDataReader dr = _sqlCommand.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(dr);
+
+                grdpracticegrid.EmptyDataText = "No Records Found";
+                grdpracticegrid.DataSource = dt;
+                grdpracticegrid.DataBind();
+            }
+            catch (Exception ex)
+            {
+                ShowAlertMessage("Check your input data");
+            }
+            finally
+            {
+                //ShowAlertMessage("Check your input data");
+                //CloseConnection();
+                // DisposeConnection();
+            }
+
+        }
+
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                CreateConnection();
+                OpenConnection();
+                _sqlCommand = new SqlCommand("SP_Insert", _sqlCommand.Connection);
+                _sqlCommand.CommandType = CommandType.StoredProcedure;
+                _sqlCommand.Parameters.AddWithValue("@Name", txtName.Text);
+                _sqlCommand.Parameters.AddWithValue("@email", ddlEmail.Text);
+                _sqlCommand.Parameters.AddWithValue("@Mobile", txtPhoneNos.Text);
+                _sqlCommand.Parameters.AddWithValue("@Password", txtPassword.Text);
+                _sqlCommand.Parameters.AddWithValue("@cnfPassword", txtcnfPassword.Text);
+
+                int result = _sqlCommand.ExecuteNonQuery();
+
+                if (result > 0)
+                {
+                    ShowAlertMessage("Record inserted  successfully");
+                    GetUserMasterList();
+
+                }
+                else
+                {
+                    ShowAlertMessage("The entered data already exists");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogError(ex);
+            }
+            finally
+            {
+                //CloseConnection();
+                //DisposeConnection();
+            }
+        }
+
+
+
+
+        public void UsersDatabyid()
+        {
+            try
+            {
+                int uid = Convert.ToInt32(Session["UId"]);
+                CreateConnection();
+                OpenConnection();
+                _sqlCommand.CommandText = "SP_GetUserById";
+                _sqlCommand.CommandType = CommandType.StoredProcedure;
+                _sqlCommand.Parameters.AddWithValue("@Id", uid);
+                SqlDataReader dr = _sqlCommand.ExecuteReader();
+                DataTable dt = new DataTable();
+                dt.Load(dr);
+
+                string Name = dt.Rows[0]["Name"].ToString();
+                txtName.Text = Name;
+
+                GetEmailData();
+                ddlEmail.SelectedItem.Value = dt.Rows[0]["Id"].ToString();
+                ddlEmail.SelectedItem.Text = dt.Rows[0]["Email"].ToString();
+
+                string PhoneNos = dt.Rows[0]["Mobile"].ToString();
+                txtPhoneNos.Text = PhoneNos;
+
+                string Password = dt.Rows[0]["Password"].ToString();
+                txtPassword.Text = Password;
+
+
+                string cnfPassword = dt.Rows[0]["cnfPassword"].ToString();
+                txtcnfPassword.Text = cnfPassword;
+
+            }
+            catch (Exception ex)
+            {
+                LogError(ex);
+                ShowAlertMessage("Something went wrong....");
+            }
+            finally
+            {
+
+            }
+        }
+
+        string Id;
+        protected void lnkUpdate_Click(object sender, EventArgs e)
+        {
+            Id = (sender as LinkButton).CommandArgument;
+            Session["UId"] = Id;
+            UsersDatabyid();
+        }
+
+        protected void grdpracticegrid_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "EditProject")
+            {
+                // Extract the command argument
+                string id = e.CommandArgument.ToString();
+
+                // Store the ID in Session or handle it as needed
+                Session["UId"] = id;
+
+                // Call your method to populate the data for editing
+                UsersDatabyid();
+            }
+        }
+
+        protected void lnkupdate_Click1(object sender, EventArgs e)
+        {
+            Id = (sender as LinkButton).CommandArgument;
+            Session["UId"] = Id;
+            UsersDatabyid();
+        }
+    }
+}
+---------------------------------------------------------------------
